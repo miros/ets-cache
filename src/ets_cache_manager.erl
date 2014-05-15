@@ -4,7 +4,7 @@
 
 -include("constants.hrl").
 -define(NAME, State#state.name).
--define(PAUSE, 1000).
+-define(PAUSE, 10000).
 
 -export([
 	start_link/1
@@ -27,7 +27,7 @@ start_link([Name]) ->
 
 init([Name]) ->
 	ets:new(Name, [
-		named_table, 
+		named_table,
 		public,
 		{read_concurrency, true},
 		{write_concurrency, true}
@@ -42,7 +42,7 @@ handle_cast(_Msg, State) ->
 	{noreply, State}.
 
 handle_info(cleanup, State) ->
-	ets:select_delete(?NAME, 
+	ets:select_delete(?NAME,
 	[
 		{
 			{'_', '_', '$1'},
